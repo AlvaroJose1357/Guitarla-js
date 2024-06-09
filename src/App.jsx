@@ -1,11 +1,19 @@
 import "./App.css";
-//import { useState } from "react";
+import { useState, useEffect } from "react";
 import Guitar from "./components/Guitar";
 import Header from "./components/Header";
 
+//data
+import { db } from "./data/db";
+
 function App() {
-  //State
-  //const [guitars, setGuitars] = useState([])
+  // State
+  const [data, setData] = useState([]);
+  //Effect // Simula la carga de datos de una api o base de datos externa(En este caso la base de datos es un archivo js)
+  useEffect(() => {
+    setData(db);
+  }, []);
+  console.log(db);
   return (
     <>
       <Header />
