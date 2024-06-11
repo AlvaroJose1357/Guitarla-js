@@ -9,10 +9,29 @@ import { db } from "./data/db";
 function App() {
   // State
   const [data, setData] = useState([]);
+  const [cart, setCart] = useState([]);
   //Effect // Simula la carga de datos de una api o base de datos externa(En este caso la base de datos es un archivo js)
   useEffect(() => {
     setData(db);
   }, []);
+  //funciones
+  function addToCart(items) {
+    // console.log("anadiendo");
+    const itemsExist = cart.findIndex((guitar) => guitar.id === items.id);
+    console.log(itemsExist);
+    // Revisamos si el item existe
+    if (itemsExist) {
+      alert("ya existe");
+    } else {
+      items.quantity = 1;
+      setCart([...cart, items]);
+      alert("lo añadiste");
+    }
+    // itemsExist >= 0
+    //   ? // si ya existe
+    //     alert("ya existe")
+    //   : (items.quantity = 1)    setCart([...cart, items]), alert("lo añadiste");
+  }
   return (
     <>
       <Header />
@@ -20,7 +39,15 @@ function App() {
         <h2 className="text-center">Nuestra Colección</h2>
         <div className="row mt-5">
           {data.map((guitar) => (
-            <Guitar key={guitar.id} guitar={guitar} />
+            <Guitar
+              //se utiliza key para que no haya problema con alun elemento repetido
+              key={guitar.id}
+              // objeto que contiene la información de una guitarra individual
+              guitar={guitar}
+              // función que se utiliza para actualizar el estado cart. Este estado representa el carrito de compras en la aplicación.
+              setCart={setCart}
+              addToCart={addToCart}
+            />
           ))}
         </div>
       </main>
