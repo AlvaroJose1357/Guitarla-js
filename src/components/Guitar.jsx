@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 export default function Guitar({ guitar, addToCart }) {
   const { id, name, image, description, price } = guitar; // se desestructura el objeto guitar para obtener los valores de las propiedades mas limpiamente, en lugar de guitar.id, guitar.name, etc.
 
