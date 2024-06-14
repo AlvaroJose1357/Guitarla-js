@@ -20,7 +20,7 @@ function App() {
     const itemsExist = cart.findIndex((guitar) => guitar.id === items.id);
     console.log(itemsExist);
     // Revisamos si el item existe
-    if (itemsExist) {
+    if (itemsExist >= 0) {
       /*se pudo haber hecho asi:
       cart[itemsExist].quantity++; ❌ pero no se debe debido a que esto muta el objecto original y no se debe hacer
       por lo que se hace de la siguiente manera:
@@ -43,7 +43,7 @@ function App() {
   }
   return (
     <>
-      <Header />
+      <Header cart={cart} />
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
         <div className="row mt-5">
