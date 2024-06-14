@@ -21,6 +21,15 @@ function App() {
     console.log(itemsExist);
     // Revisamos si el item existe
     if (itemsExist) {
+      /*se pudo haber hecho asi:
+      cart[itemsExist].quantity++; ❌ pero no se debe debido a que esto muta el objecto original y no se debe hacer
+      por lo que se hace de la siguiente manera:
+      */
+      const updateCart = [...cart];
+      updateCart[itemsExist].quantity++;
+      setCart(updateCart);
+      /*esto se hace con el fin de que no se mute el objecto original la cual esta no es la debida manera de hacerlo correctamente
+      para eso existe el Set del respectivo estado*/
       alert("ya existe");
     } else {
       items.quantity = 1;
