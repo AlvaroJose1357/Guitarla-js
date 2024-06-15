@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-export default function Header({ cart }) {
+export default function Header({ cart, removeFromCart }) {
   /*Se crea una función isEmpty que retorna true si el carrito esta vacio y false si no lo esta
   State Derivado => es un estado que se deriva de otro estado. En este caso, el estado cart se deriva para saber si esta vacio o no.
   el state derivado se puede hacer de las siguientes maneras:
@@ -80,6 +80,9 @@ export default function Header({ cart }) {
                               </td>
                               <td>
                                 <button
+                                  onClick={() => {
+                                    removeFromCart(guitar.id);
+                                  }}
                                   className="btn btn-danger"
                                   type="button"
                                 >

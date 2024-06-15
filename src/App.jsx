@@ -18,7 +18,6 @@ function App() {
   function addToCart(items) {
     // console.log("anadiendo");
     const itemsExist = cart.findIndex((guitar) => guitar.id === items.id);
-    console.log(itemsExist);
     // Revisamos si el item existe
     if (itemsExist >= 0) {
       /*se pudo haber hecho asi:
@@ -41,9 +40,15 @@ function App() {
     //     alert("ya existe")
     //   : (items.quantity = 1)    setCart([...cart, items]), alert("lo añadiste");
   }
+  function removeFromCart(id) {
+    // const cartFilter = cart.filter((guitar) => guitar.id !== id);
+    // setCart(cartFilter);
+    setCart(cart.filter((guitar) => guitar.id !== id));
+    // console.log("eliminando" + id);
+  }
   return (
     <>
-      <Header cart={cart} />
+      <Header cart={cart} removeFromCart={removeFromCart} />
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
         <div className="row mt-5">
