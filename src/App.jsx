@@ -14,13 +14,17 @@ function App() {
   useEffect(() => {
     setData(db);
   }, []);
-  const MAX_QUANTITY = 5;
+  const MAX_QUANTITY = 5; // se coloca el maximo de elementos que se pueden tener en el carrito
+  const MIN_QUANTITY = 1; // se coloca el minimo de elementos que se pueden tener en el carrito
   //funciones
   function addToCart(items) {
     // console.log("anadiendo");
     const itemsExist = cart.findIndex((guitar) => guitar.id === items.id);
     // Revisamos si el item existe
     if (itemsExist >= 0) {
+      // Revisamos si la cantidad de items es mayor o igual a 5
+      if (cart[itemsExist].quantity >= MAX_QUANTITY) return
+
       /*se pudo haber hecho asi:
       cart[itemsExist].quantity++; ❌ pero no se debe debido a que esto muta el objecto original y no se debe hacer
       por lo que se hace de la siguiente manera:
@@ -30,11 +34,11 @@ function App() {
       setCart(updateCart);
       /*esto se hace con el fin de que no se mute el objecto original la cual esta no es la debida manera de hacerlo correctamente
       para eso existe el Set del respectivo estado*/
-      alert("ya existe");
+      //alert("ya existe");
     } else {
       items.quantity = 1;
       setCart([...cart, items]);
-      alert("lo añadiste");
+      //alert("lo añadiste");
     }
     // itemsExist >= 0
     //   ? // si ya existe
@@ -64,13 +68,25 @@ function App() {
     setCart(updateCart);
   }
 
-
+  function decreaseQuantity(id) {
+    const updateCart = cart.map((item) => {
+      if (item.id === id && item.quantity > MIN_QUANTITY) {
+        return {
+          ...item,
+          quantity: item.quantity - 1
+        };
+      }
+      return item;
+    });
+    setCart(updateCart);
+  }
   return (
     <>
       <Header
         cart={cart}
         removeFromCart={removeFromCart}
         increaseQuantity={increaseQuantity}
+        decreaseQuantity={decreaseQuantity}
       />
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
