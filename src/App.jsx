@@ -14,6 +14,7 @@ function App() {
   useEffect(() => {
     setData(db);
   }, []);
+  const MAX_QUANTITY = 5;
   //funciones
   function addToCart(items) {
     // console.log("anadiendo");
@@ -46,9 +47,31 @@ function App() {
     setCart(cart.filter((guitar) => guitar.id !== id));
     // console.log("eliminando" + id);
   }
+
+  function increaseQuantity(id) {
+    /* lo que hace es con el metodo map se va a iterar por todos los elementos del carito que se tienen guardandolos en updateCart
+    y en el va a buscar el id el cual concuerde en el que se esta dando click, se hace una copia de lo que se tiene del items, pero la quantity se actualizara en 1, retornando dicho item con el fin de no modificar el state del item */
+    const updateCart = cart.map((item) => {
+      //se coloca el max_quantity para que no se pueda pasar de 5 elementos, este se coloca en const para tener un mejor control del codigo, mejorando la legibilidad, teniendo un codigo mas limpio
+      if (item.id === id && item.quantity < MAX_QUANTITY) {
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      }
+      return item;
+    });
+    setCart(updateCart);
+  }
+
+
   return (
     <>
-      <Header cart={cart} removeFromCart={removeFromCart} />
+      <Header
+        cart={cart}
+        removeFromCart={removeFromCart}
+        increaseQuantity={increaseQuantity}
+      />
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
         <div className="row mt-5">
