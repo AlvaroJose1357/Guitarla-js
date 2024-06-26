@@ -14,17 +14,18 @@ function App() {
   useEffect(() => {
     setData(db);
   }, []);
+  //Constantes
   const MAX_QUANTITY = 5; // se coloca el maximo de elementos que se pueden tener en el carrito
   const MIN_QUANTITY = 1; // se coloca el minimo de elementos que se pueden tener en el carrito
   //funciones
   function addToCart(items) {
     // console.log("anadiendo");
+    // lo que hace es buscar si el item ya existe en el carrito
     const itemsExist = cart.findIndex((guitar) => guitar.id === items.id);
     // Revisamos si el item existe
     if (itemsExist >= 0) {
       // Revisamos si la cantidad de items es mayor o igual a 5
       if (cart[itemsExist].quantity >= MAX_QUANTITY) return
-
       /*se pudo haber hecho asi:
       cart[itemsExist].quantity++; ❌ pero no se debe debido a que esto muta el objecto original y no se debe hacer
       por lo que se hace de la siguiente manera:
@@ -45,6 +46,7 @@ function App() {
     //     alert("ya existe")
     //   : (items.quantity = 1)    setCart([...cart, items]), alert("lo añadiste");
   }
+
   function removeFromCart(id) {
     // const cartFilter = cart.filter((guitar) => guitar.id !== id);
     // setCart(cartFilter);
@@ -59,7 +61,11 @@ function App() {
       //se coloca el max_quantity para que no se pueda pasar de 5 elementos, este se coloca en const para tener un mejor control del codigo, mejorando la legibilidad, teniendo un codigo mas limpio
       if (item.id === id && item.quantity < MAX_QUANTITY) {
         return {
-          ...item,
+          ...item,/*
+          item.quantity += 1,
+          item.quantity = item.quantity + 1, ❌ no se debe hacer debido a que esto muta el objecto original y no se debe hacer
+          item.quantity ++ ❌ no se debe hacer debido a que esto muta el objecto original y no se debe hacer  
+          */
           quantity: item.quantity + 1,
         };
       }
@@ -80,6 +86,10 @@ function App() {
     });
     setCart(updateCart);
   }
+
+  function clearCart() {
+    setCart([]);
+  }
   return (
     <>
       <Header
@@ -87,6 +97,7 @@ function App() {
         removeFromCart={removeFromCart}
         increaseQuantity={increaseQuantity}
         decreaseQuantity={decreaseQuantity}
+        clearCart={clearCart}
       />
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
