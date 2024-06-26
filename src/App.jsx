@@ -7,13 +7,30 @@ import Header from "./components/Header";
 import { db } from "./data/db";
 
 function App() {
+  //initial state
+  // este valor inicial se coloca debido a que cada que se recargaba con localStorage el useState de cart se volvia a poner vacio el carrito debido a que el estado inicial de cart es un array vacio, por lo que se coloca una funcion que se encarga de obtener el carrito del local storage
+  const initialCart = () => {
+    // se obtiene el carrito del local storage
+    const localStorageCart = localStorage.getItem("cart");
+    // se verifica si el carrito esta vacio, si no esta vacio se retorna el carrito y con json.parse para que se convierta en un array, si esta vacio se retorna un array vacio
+    return localStorageCart ? JSON.parse(localStorageCart) : [];
+  };
   // State
   const [data, setData] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(initialCart);
   //Effect // Simula la carga de datos de una api o base de datos externa(En este caso la base de datos es un archivo js)
+  // se utiliza para cargar los datos de la base de datos en el estado data
   useEffect(() => {
     setData(db);
   }, []);
+  //useEffect para guardar el carrito en el local storage
+  useEffect(() => {
+    // se guarda el carrito en el local storage para que no se pierda al recargar la pagina
+    // como este se encuentra en un array de objetos se debe convertir a string con JSON.stringify ya que este solo guarda strings
+    // "cart" es la key que se le asigna al objeto que se va a guardar en el local storage
+    localStorage.setItem("cart", JSON.stringify(cart));
+    // cada que cart cambie se va a guardar en el local storage
+  }, [cart]);
   //Constantes
   const MAX_QUANTITY = 5; // se coloca el maximo de elementos que se pueden tener en el carrito
   const MIN_QUANTITY = 1; // se coloca el minimo de elementos que se pueden tener en el carrito
@@ -45,6 +62,10 @@ function App() {
     //   ? // si ya existe
     //     alert("ya existe")
     //   : (items.quantity = 1)    setCart([...cart, items]), alert("lo añadiste");
+
+    /* perteneciente a la funcion de abajo */
+    //cuando se añade un item al carrito se guarda en el local storage
+    //saveLocalStorage();
   }
 
   function removeFromCart(id) {
@@ -90,6 +111,13 @@ function App() {
   function clearCart() {
     setCart([]);
   }
+  // esta funcion no es que sea la mejor manera debido al state del carrito se actualiza cada vez que se añade un item al carrito, lo que lo hace un poco retardado al momento de actualizar el local storage, por lo que se puede hacer de la manera usando un useEffect 👆(arriba)
+  // function saveLocalStorage() {
+  //   // se guarda el carrito en el local storage para que no se pierda al recargar la pagina
+  //   // como este se encuentra en un array de objetos se debe convertir a string con JSON.stringify ya que este solo guarda strings
+  //   // "cart" es la key que se le asigna al objeto que se va a guardar en el local storage
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  // }
   return (
     <>
       <Header
