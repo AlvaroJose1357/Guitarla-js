@@ -3,6 +3,7 @@ export default function Header({ cart, removeFromCart, increaseQuantity, decreas
   const { isEmpty, cartTotal } = useCart();
   la solucion a esto es pasarlo como props y hacer uso de las funciones que se necesiten
   */
+
   return (
     <header className="py-5 header">
       <div className="container-xl">

@@ -133,6 +133,7 @@ export const useCart = () => {
       cart.reduce((total, items) => total + items.quantity * items.price, 0),
     [cart]
   );
+  
   return {
     // se retorna un objeto con las propiedades que se van a utilizar en el componente
     // se retorna el estado data, cart
