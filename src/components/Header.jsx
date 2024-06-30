@@ -1,23 +1,8 @@
-import { useMemo } from "react";
-export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart }) {
-  //Se crea una función isEmpty que retorna true si el carrito esta vacio y false si no lo esta
-  const isEmpty = useMemo(() => cart.length === 0, [cart]);
-  /* State Derivado => es un estado que se deriva de otro estado. En este caso, el estado cart se deriva para saber si esta vacio o no.
-  el state derivado se puede hacer de las siguientes maneras:
-  1. Se puede hacer con una función que se ejecute cada vez que el estado cambie
-  const isEmpty = () => cart.length === 0;
-  2. se puede hacer en tipo de variable que se actualice cada vez que el estado cambie
-  const cartTotal = cart.reduce(
-    (total, items) => total + items.quantity * items.price,
-    0
-  );
-  lo mas recomendable es hacerlo con una función ya que se ejecuta cada vez que el estado cambie y no se tiene que estar actualizando la variable cada vez que el estado cambie ya que se hace automaticamente con la función y se actualiza el estado cart
-  3. con useMemo que es un hook que se utiliza para memorizar un valor y solo se actualiza cuando sus dependencias cambian*/
-  const cartTotal = useMemo(
-    () =>
-      cart.reduce((total, items) => total + items.quantity * items.price, 0),
-    [cart]
-  );
+export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, isEmpty, cartTotal}) {
+  /* con lo siguiente hacemos que aparece el carrito en el header, pero no se puede hacer uso de las funciones de useCart, debido a que se esta tomando este carrito como uno nuevo, lo cual nos deja la pagina sin funcionalidad
+  const { isEmpty, cartTotal } = useCart();
+  la solucion a esto es pasarlo como props y hacer uso de las funciones que se necesiten
+  */
   return (
     <header className="py-5 header">
       <div className="container-xl">
